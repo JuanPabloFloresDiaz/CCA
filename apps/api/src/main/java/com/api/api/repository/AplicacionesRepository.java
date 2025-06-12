@@ -21,7 +21,7 @@ public interface AplicacionesRepository extends JpaRepository<Aplicaciones, UUID
     Page<Aplicaciones> searchAllFields(@Param("searchTerm") String searchTerm, Pageable pageable);
 
     @Query("SELECT a FROM Aplicaciones a WHERE a.estado = :estado")
-    Page<Aplicaciones> findByEstado(@Param("estado") Boolean estado, Pageable pageable);
+    Page<Aplicaciones> findByEstado(@Param("estado") String estado, Pageable pageable);
 
     @Query("SELECT a.id AS id, a.nombre AS nombre FROM Aplicaciones a")
     Iterable<AplicacionSimpleDTO> findAllSelect();

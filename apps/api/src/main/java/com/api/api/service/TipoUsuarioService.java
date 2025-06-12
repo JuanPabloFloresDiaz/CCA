@@ -74,7 +74,7 @@ public class TipoUsuarioService {
     }
 
     // Filtrar tipos de usuario por estado con paginación
-    public Page<TipoUsuario> findByEstado(Boolean estado, int page, int limit) {
+    public Page<TipoUsuario> findByEstado(String estado, int page, int limit) {
         Pageable pageable = PageRequest.of(page - 1, limit);
         return tipoUsuarioRepository.findByEstado(estado, pageable);
     }

@@ -22,7 +22,7 @@ public interface UsuariosRepository extends JpaRepository<Usuarios, UUID> {
     Page<Usuarios> searchAllFields(@Param("searchTerm") String searchTerm, Pageable pageable);
 
     @Query("SELECT u FROM Usuarios u WHERE u.estado = :estado")
-    Page<Usuarios> findByEstado(@Param("estado") Boolean estado, Pageable pageable);
+    Page<Usuarios> findByEstado(@Param("estado") String estado, Pageable pageable);
 
     // Buscar usuarios por la propiedad dosFactorActivo
     @Query("SELECT u FROM Usuarios u WHERE u.dosFactorActivo = :dosFactorActivo")

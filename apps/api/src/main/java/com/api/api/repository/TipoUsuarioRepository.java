@@ -22,7 +22,7 @@ public interface TipoUsuarioRepository extends JpaRepository<TipoUsuario, UUID> 
     Page<TipoUsuario> searchAllFields(@Param("searchTerm") String searchTerm, Pageable pageable);
 
     @Query("SELECT t FROM TipoUsuario t WHERE t.estado = :estado")
-    Page<TipoUsuario> findByEstado(@Param("estado") Boolean estado, Pageable pageable);
+    Page<TipoUsuario> findByEstado(@Param("estado") String estado, Pageable pageable);
 
     @Query("SELECT t FROM TipoUsuario t WHERE t.aplicacion.id = :aplicacionId")
     Page<TipoUsuario> findByAplicacionId(@Param("aplicacionId") UUID aplicacionId, Pageable pageable);

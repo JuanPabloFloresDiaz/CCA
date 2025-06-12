@@ -69,7 +69,7 @@ public class AplicacionesService {
     }
 
     // Filtrar aplicaciones por estado con paginación
-    public Page<Aplicaciones> findByEstado(Boolean estado, int page, int limit) {
+    public Page<Aplicaciones> findByEstado(String estado, int page, int limit) {
         Pageable pageable = PageRequest.of(page - 1, limit);
         return aplicacionesRepository.findByEstado(estado, pageable);
     }

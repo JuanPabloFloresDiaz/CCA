@@ -21,6 +21,6 @@ public interface SesionesRepository extends JpaRepository<Sesiones, UUID> {
     Page<Sesiones> searchAllFields(@Param("searchTerm") String searchTerm, Pageable pageable);
 
     @Query("SELECT s FROM Sesiones s WHERE s.estado = :estado")
-    Page<Sesiones> findByEstado(@Param("estado") Boolean estado, Pageable pageable);
+    Page<Sesiones> findByEstado(@Param("estado") String estado, Pageable pageable);
 
 }
