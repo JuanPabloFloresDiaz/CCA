@@ -1,4 +1,4 @@
-package com.api.api.dto;
+package com.api.api.dto.SimpleDTO;
 
 import java.util.UUID;
 public interface AplicacionSimpleDTO {

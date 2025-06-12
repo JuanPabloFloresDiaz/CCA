@@ -1,7 +1,7 @@
 package com.api.api.service;
 
 import com.api.api.repository.AplicacionesRepository;
-import com.api.api.dto.AplicacionSimpleDTO;
+import com.api.api.dto.SimpleDTO.AplicacionSimpleDTO;
 import com.api.api.model.Aplicaciones;
 
 import org.springframework.data.domain.PageRequest;

@@ -1,7 +1,7 @@
 package com.api.api.service;
 
 import com.api.api.repository.SeccionesRepository;
-import com.api.api.dto.SeccionSimpleDTO;
+import com.api.api.dto.SimpleDTO.SeccionSimpleDTO;
 import com.api.api.model.Secciones;
 
 import org.springframework.data.domain.PageRequest;
