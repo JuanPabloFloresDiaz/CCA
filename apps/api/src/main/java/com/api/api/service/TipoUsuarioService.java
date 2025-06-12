@@ -56,7 +56,6 @@ public class TipoUsuarioService {
             tipoUsuario.setDescripcion(tipoUsuarioActualizado.getDescripcion());
             tipoUsuario.setAplicacion(tipoUsuarioActualizado.getAplicacion());
             tipoUsuario.setEstado(tipoUsuarioActualizado.getEstado());
-            // Agrega aquí otros campos si los tienes
             return tipoUsuarioRepository.save(tipoUsuario);
         });
     }
