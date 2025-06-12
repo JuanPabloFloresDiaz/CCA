@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import com.api.api.dto.SimpleDTO.UsuarioSimpleDTO;
 
 import com.api.api.model.Usuarios;
 import java.util.UUID;
@@ -40,4 +41,7 @@ public interface UsuariosRepository extends JpaRepository<Usuarios, UUID> {
           AND u.fechaBloqueoSesion > CURRENT_TIMESTAMP
         """)
     boolean isSessionBlocked(@Param("id") UUID id);
+
+    @Query("SELECT u.id AS id, u.nombres AS nombre, u.apellidos AS apellidos, u.email AS email FROM Usuarios u")
+    Iterable<UsuarioSimpleDTO> findAllSelect();
 }

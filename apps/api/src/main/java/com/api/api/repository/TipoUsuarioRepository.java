@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.api.api.dto.SimpleDTO.TipoUsuarioSimpleDTO;
 import com.api.api.model.TipoUsuario;
 import java.util.UUID;
 
@@ -25,4 +26,7 @@ public interface TipoUsuarioRepository extends JpaRepository<TipoUsuario, UUID> 
 
     @Query("SELECT t FROM TipoUsuario t WHERE t.aplicacion.id = :aplicacionId")
     Page<TipoUsuario> findByAplicacionId(@Param("aplicacionId") UUID aplicacionId, Pageable pageable);
+
+    @Query("SELECT t.id AS id, t.nombre AS nombre FROM TipoUsuario t")
+    Iterable<TipoUsuarioSimpleDTO> findAllSelect();
 }
