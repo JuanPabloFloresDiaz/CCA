@@ -56,6 +56,7 @@ public class Usuarios extends BaseEntity {
     private OffsetDateTime fechaBloqueoSesion;
 
     // Gestión de contraseñas y políticas de seguridad
+    @NotNull(message = "La fecha de último cambio de contraseña es obligatoria")
     @Column(name = "fecha_ultimo_cambio_contrasena", nullable = false, columnDefinition = "TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP")
     private OffsetDateTime fechaUltimoCambioContrasena = OffsetDateTime.now();
     

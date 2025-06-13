@@ -9,6 +9,8 @@ import org.springframework.stereotype.Repository;
 import com.api.api.dto.SimpleDTO.UsuarioSimpleDTO;
 
 import com.api.api.model.Usuarios;
+
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -44,4 +46,7 @@ public interface UsuariosRepository extends JpaRepository<Usuarios, UUID> {
 
     @Query("SELECT u.id AS id, u.nombres AS nombre, u.apellidos AS apellidos, u.email AS email FROM Usuarios u")
     Iterable<UsuarioSimpleDTO> findAllSelect();
+
+    @Query("SELECT u FROM Usuarios u WHERE LOWER(u.email) = LOWER(:email)")
+    Optional<Usuarios> findByEmail(String email);
 }
