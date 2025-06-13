@@ -20,13 +20,16 @@ public class AuditoriaAccesos extends BaseEntity {
     @JoinColumn(name = "usuario_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_auditoria_accesos_usuario"), nullable = false)
     private Usuarios usuario;
 
-    @NotNull(message = "La aplicación es obligatoria")
+    @NotBlank(message = "El email del usuario es obligatorio para la auditoría")
+    @Email(message = "El email del usuario debe ser válido")
+    @Column(name = "email_usuario", nullable = false, length = 100)
+    private String emailUsuario;
+
     @ManyToOne
     @JsonBackReference("auditoria_accesos_aplicaciones")
     @JoinColumn(name = "aplicacion_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_auditoria_accesos_aplicacion"), nullable = false)
     private Aplicaciones aplicacion;
 
-    @NotNull(message = "La acción es obligatoria")
     @ManyToOne
     @JoinColumn(name = "accion_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_auditoria_accesos_accion"), nullable = false)
     private Acciones accion;
@@ -37,6 +40,12 @@ public class AuditoriaAccesos extends BaseEntity {
     @NotBlank(message = "La IP de origen es obligatoria")
     @Column(name = "ip_origen", nullable = false, length = 45)
     private String ipOrigen;
+
+    @Column(name = "informacion_dispositivo", columnDefinition = "TEXT")
+    private String informacionDispositivo;
+
+    @Column(name = "mensaje", columnDefinition = "TEXT")
+    private String mensaje;
 
     @NotBlank(message = "El estado es obligatorio")
     @Column(name = "estado", nullable = false, length = 10, columnDefinition = "VARCHAR(10) DEFAULT 'exitoso' CHECK (estado IN ('exitoso','fallido'))")
