@@ -14,7 +14,6 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class AuditoriaAccesos extends BaseEntity {
 
-    @NotNull(message = "El usuario es obligatorio")
     @ManyToOne
     @JsonBackReference("auditoria_accesos_usuarios")
     @JoinColumn(name = "usuario_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_auditoria_accesos_usuario"), nullable = false)
