@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 import java.util.UUID;
+import java.time.OffsetDateTime;
 import java.util.List;
 
 @Service
@@ -53,7 +54,18 @@ public class SesionesService {
             sesion.setEmailUsuario(sesionActualizada.getEmailUsuario());
             sesion.setInformacionDispositivo(sesionActualizada.getInformacionDispositivo());
             sesion.setFechaExpiracion(sesionActualizada.getFechaExpiracion());
+            sesion.setFechaInicio(sesionActualizada.getFechaInicio()); 
+            sesion.setFechaFin(sesionActualizada.getFechaFin()); 
             sesion.setEstado(sesionActualizada.getEstado());
+            return sesionesRepository.save(sesion);
+        });
+    }
+
+    // Actualizar el estado de una sesión por su ID
+    public Optional<Sesiones> updateStatus(UUID id, String newStatus, OffsetDateTime endDate) {
+        return sesionesRepository.findById(id).map(sesion -> {
+            sesion.setEstado(newStatus);
+            sesion.setFechaFin(endDate);
             return sesionesRepository.save(sesion);
         });
     }
@@ -75,5 +87,10 @@ public class SesionesService {
     public Page<Sesiones> findByEstado(String estado, int page, int limit) {
         Pageable pageable = PageRequest.of(page - 1, limit);
         return sesionesRepository.findByEstado(estado, pageable);
+    }
+
+    // Buscar una sesión por su token JWT
+    public Optional<Sesiones> findByToken(String token) {
+        return sesionesRepository.findByToken(token);
     }
 }

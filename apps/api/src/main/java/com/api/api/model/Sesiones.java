@@ -40,6 +40,12 @@ public class Sesiones extends BaseEntity {
     @Column(name = "fecha_expiracion", nullable = false, columnDefinition = "TIMESTAMP WITH TIME ZONE")
     private OffsetDateTime fechaExpiracion;
 
+    @Column(name = "fecha_inicio", nullable = false, columnDefinition = "TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP")
+    private OffsetDateTime fechaInicio = OffsetDateTime.now(); // Campo para el inicio de la sesión
+
+    @Column(name = "fecha_fin", columnDefinition = "TIMESTAMP WITH TIME ZONE")
+    private OffsetDateTime fechaFin; // Campo para el fin de la sesión (para logout/revocación)
+
     @NotBlank(message = "El estado es obligatorio")
     @Column(name = "estado", nullable = false, length = 10, columnDefinition = "VARCHAR(10) DEFAULT 'activa' CHECK (estado IN ('activa','cerrada','expirada'))")
     private String estado = "activa";

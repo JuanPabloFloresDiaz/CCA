@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import com.api.api.model.Sesiones;
+
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -23,4 +25,7 @@ public interface SesionesRepository extends JpaRepository<Sesiones, UUID> {
     @Query("SELECT s FROM Sesiones s WHERE s.estado = :estado")
     Page<Sesiones> findByEstado(@Param("estado") String estado, Pageable pageable);
 
+    // Buscar una sesión por su token JWT
+    @Query("SELECT s FROM Sesiones s WHERE s.token = :token")
+    Optional<Sesiones> findByToken(String token);
 }
