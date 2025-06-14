@@ -194,6 +194,12 @@
 			<artifactId>micrometer-registry-prometheus</artifactId>
 			<scope>runtime</scope>
 		</dependency>
+		<!-- Proporciona soporte para Aspect-Oriented Programming (AOP) en Spring -->
+		<!-- spring-boot-starter-aop -->	
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
 	</dependencies>
 
 	<build>
