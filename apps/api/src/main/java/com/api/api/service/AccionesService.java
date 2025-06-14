@@ -85,4 +85,9 @@ public class AccionesService {
         Pageable pageable = PageRequest.of(page - 1, limit);
         return accionesRepository.findBySeccionId(seccionId, pageable);
     }
+
+    // Buscar una acción por nombre y aplicación
+    public Optional<Acciones> findByNombreAndAplicacionId(String nombre, UUID aplicacionId) {
+        return Optional.ofNullable(accionesRepository.findByNombreAndAplicacionId(nombre, aplicacionId));
+    }
 }
