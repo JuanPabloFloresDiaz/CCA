@@ -1,8 +1,6 @@
 package com.api.api.security;
 
 import io.jsonwebtoken.*;
-import io.jsonwebtoken.io.Decoders; // Importación para decodificar la clave secreta
-import io.jsonwebtoken.security.Keys; // Importación para generar claves
 import io.jsonwebtoken.security.SignatureException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +15,6 @@ import javax.crypto.spec.SecretKeySpec;
 import java.security.spec.KeySpec;
 import java.util.Base64;
 import java.util.Date;
-import java.util.UUID; // Necesario para el ID del usuario
 
 @Component
 public class JwtTokenProvider {
