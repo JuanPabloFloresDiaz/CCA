@@ -73,4 +73,9 @@ public class AplicacionesService {
         Pageable pageable = PageRequest.of(page - 1, limit);
         return aplicacionesRepository.findByEstado(estado, pageable);
     }
+
+    // Buscar una aplicación por su llave identificadora
+    public Optional<Aplicaciones> findByLlaveIdentificadora(String llaveIdentificadora) {
+        return Optional.ofNullable(aplicacionesRepository.findByLlaveIdentificadora(llaveIdentificadora));
+    }
 }
