@@ -21,6 +21,9 @@ public interface AccionesRepository extends JpaRepository<Acciones, UUID> {
     @Query("SELECT a FROM Acciones a WHERE a.aplicacion.id = :aplicacionId")
     Page<Acciones> findByAplicacionId(@Param("aplicacionId") UUID aplicacionId, Pageable pageable);
 
+    @Query("SELECT a FROM Acciones a WHERE a.nombre = :nombre AND a.aplicacion.id = :aplicacionId")
+    Acciones findByNombreAndAplicacionId(@Param("nombre") String nombre, @Param("aplicacionId") UUID aplicacionId);
+
     @Query("SELECT a FROM Acciones a WHERE a.seccion.id = :seccionId")
     Page<Acciones> findBySeccionId(@Param("seccionId") UUID seccionId, Pageable pageable);
 
