@@ -1,6 +1,6 @@
 -- Crear tabla de auditoria de accesos
 CREATE TABLE IF NOT EXISTS auditoria_accesos (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(), -- Usar UUID como identificador
+    id UUID NOT NULL DEFAULT gen_random_uuid(), -- Usar UUID como identificador
     usuario_id UUID NULL, -- Puede ser nulo si el usuario no existe (ej. intentos de login fallidos)
     email_usuario VARCHAR(100) NOT NULL, -- Email del usuario (siempre presente para auditoría)
     aplicacion_id UUID NOT NULL,
@@ -17,5 +17,6 @@ CREATE TABLE IF NOT EXISTS auditoria_accesos (
     -- Campos de auditoría (heredados de BaseEntity)
     created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    deleted_at TIMESTAMP WITH TIME ZONE NULL DEFAULT NULL
+    deleted_at TIMESTAMP WITH TIME ZONE NULL DEFAULT null,
+    PRIMARY KEY (id, fecha)
 ) PARTITION BY RANGE (fecha);
