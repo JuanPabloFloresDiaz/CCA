@@ -25,4 +25,8 @@ public interface AplicacionesRepository extends JpaRepository<Aplicaciones, UUID
 
     @Query("SELECT a.id AS id, a.nombre AS nombre FROM Aplicaciones a")
     Iterable<AplicacionSimpleDTO> findAllSelect();
+
+    @Query("SELECT a FROM Aplicaciones a WHERE a.llaveIdentificadora = :llaveIdentificadora")   
+    Aplicaciones findByLlaveIdentificadora(@Param("llaveIdentificadora") String llaveIdentificadora);
+
 }
