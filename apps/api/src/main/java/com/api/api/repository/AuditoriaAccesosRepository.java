@@ -7,10 +7,11 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import com.api.api.model.AuditoriaAccesos;
+import com.api.api.model.AuditoriaAccesosId;
 import java.util.UUID;
 
 @Repository
-public interface AuditoriaAccesosRepository extends JpaRepository<AuditoriaAccesos, UUID> {
+public interface AuditoriaAccesosRepository extends JpaRepository<AuditoriaAccesos, AuditoriaAccesosId> {
     
     @Query("SELECT a FROM AuditoriaAccesos a WHERE " +
            "LOWER(a.usuario) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
