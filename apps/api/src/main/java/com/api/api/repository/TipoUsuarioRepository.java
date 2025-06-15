@@ -9,16 +9,18 @@ import org.springframework.stereotype.Repository;
 
 import com.api.api.dto.SimpleDTO.TipoUsuarioSimpleDTO;
 import com.api.api.model.TipoUsuario;
+
+import java.util.List;
 import java.util.UUID;
 
 @Repository
 public interface TipoUsuarioRepository extends JpaRepository<TipoUsuario, UUID> {
 
     @Query("SELECT t FROM TipoUsuario t WHERE " +
-           "LOWER(t.nombre) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
-           "LOWER(t.descripcion) LIKE LOWER(CONCAT('%', :searchTerm, '%'))" +
-           " OR LOWER(t.aplicacion.nombre) LIKE LOWER(CONCAT('%', :searchTerm, '%'))" +
-           " OR LOWER(t.estado) LIKE LOWER(CONCAT('%', :searchTerm, '%'))")
+            "LOWER(t.nombre) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
+            "LOWER(t.descripcion) LIKE LOWER(CONCAT('%', :searchTerm, '%'))" +
+            " OR LOWER(t.aplicacion.nombre) LIKE LOWER(CONCAT('%', :searchTerm, '%'))" +
+            " OR LOWER(t.estado) LIKE LOWER(CONCAT('%', :searchTerm, '%'))")
     Page<TipoUsuario> searchAllFields(@Param("searchTerm") String searchTerm, Pageable pageable);
 
     @Query("SELECT t FROM TipoUsuario t WHERE t.estado = :estado")
@@ -26,6 +28,9 @@ public interface TipoUsuarioRepository extends JpaRepository<TipoUsuario, UUID> 
 
     @Query("SELECT t FROM TipoUsuario t WHERE t.aplicacion.id = :aplicacionId")
     Page<TipoUsuario> findByAplicacionId(@Param("aplicacionId") UUID aplicacionId, Pageable pageable);
+
+    @Query("SELECT t FROM TipoUsuario t WHERE t.aplicacion.id = :aplicacionId")
+    List<TipoUsuario> findAllByAplicacionId(@Param("aplicacionId") UUID aplicacionId);
 
     @Query("SELECT t.id AS id, t.nombre AS nombre FROM TipoUsuario t")
     Iterable<TipoUsuarioSimpleDTO> findAllSelect();

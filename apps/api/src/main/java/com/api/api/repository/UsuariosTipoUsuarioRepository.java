@@ -8,6 +8,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.api.api.model.UsuariosTipoUsuario;
+
+import java.util.List;
 import java.util.UUID;
 
 @Repository
@@ -24,4 +26,6 @@ public interface UsuariosTipoUsuarioRepository extends JpaRepository<UsuariosTip
     @Query("SELECT u FROM UsuariosTipoUsuario u WHERE u.tipoUsuario.id = :tipoUsuarioId")
     Page<UsuariosTipoUsuario> findByTipoUsuarioId(@Param("tipoUsuarioId") UUID tipoUsuarioId, Pageable pageable);
 
+    @Query("SELECT u FROM UsuariosTipoUsuario u WHERE u.usuario.id = :usuarioId")
+    List<UsuariosTipoUsuario> findAllByUsuarioId(@Param("usuarioId") UUID usuarioId);
 }
