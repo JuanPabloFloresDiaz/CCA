@@ -34,4 +34,7 @@ public interface TipoUsuarioRepository extends JpaRepository<TipoUsuario, UUID> 
 
     @Query("SELECT t.id AS id, t.nombre AS nombre FROM TipoUsuario t")
     Iterable<TipoUsuarioSimpleDTO> findAllSelect();
+
+    @Query("SELECT t FROM TipoUsuario t WHERE LOWER(t.nombre) = LOWER(:nombre) AND t.aplicacion.id = :aplicacionId")
+    List<TipoUsuario> findByNombreAndAplicacionId(@Param("nombre") String nombre, @Param("aplicacionId") UUID aplicacionId);
 }

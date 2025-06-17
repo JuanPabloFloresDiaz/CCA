@@ -107,4 +107,9 @@ public class TipoUsuarioService {
         Pageable pageable = PageRequest.of(page - 1, limit);
         return tipoUsuarioRepository.findByAplicacionId(aplicacionId, pageable);
     }
+
+    // Filtrar tipos de usuario por nombre y aplicación
+    public Optional<TipoUsuario> findByNombreAndAplicacionId(String nombre, UUID aplicacionId) {
+        return tipoUsuarioRepository.findByNombreAndAplicacionId(nombre, aplicacionId).stream().findFirst();
+    }
 }
