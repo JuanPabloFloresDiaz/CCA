@@ -6,21 +6,25 @@ import com.api.api.model.Usuarios;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.api.api.audit.AuditableAction;
 import com.api.api.audit.AuditableAction.AuditResultType;
 
 import java.util.Optional;
 import java.util.UUID;
+import java.time.OffsetDateTime;
 import java.util.List;
 
 @Service
 public class UsuariosService {
 
     private final UsuariosRepository usuariosRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UsuariosService(UsuariosRepository usuariosRepository) {
+    public UsuariosService(UsuariosRepository usuariosRepository, PasswordEncoder passwordEncoder) {
         this.usuariosRepository = usuariosRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     // Auditar la acción de búsqueda de todos los usuarios
@@ -54,6 +58,14 @@ public class UsuariosService {
     @AuditableAction(actionName = "Creación de Usuario", message = "Se intentó crear un nuevo usuario.")
     // Crear un nuevo usuario
     public Usuarios create(Usuarios usuario) {
+        // Encriptar la contraseña antes de guardar
+        if (usuario.getContrasena() != null && !usuario.getContrasena().isEmpty()) {
+            usuario.setContrasena(passwordEncoder.encode(usuario.getContrasena()));
+        }
+        // Establecer valores predeterminados para campos adicionales
+        usuario.setFechaUltimoCambioContrasena(OffsetDateTime.now()); 
+        usuario.setRequiereCambioContrasena(false); 
+        usuario.setIntentosFallidosSesion(0);
         return usuariosRepository.save(usuario);
     }
 
@@ -61,6 +73,14 @@ public class UsuariosService {
     @AuditableAction(actionName = "Creación de Múltiples Usuarios", message = "Se intentó crear múltiples usuarios.")
     // Crear múltiples usuarios
     public List<Usuarios> createAll(List<Usuarios> usuarios) {
+        for (Usuarios usuario : usuarios) {
+            if (usuario.getContrasena() != null && !usuario.getContrasena().isEmpty()) {
+                usuario.setContrasena(passwordEncoder.encode(usuario.getContrasena()));
+            }
+            usuario.setFechaUltimoCambioContrasena(OffsetDateTime.now());
+            usuario.setRequiereCambioContrasena(false);
+            usuario.setIntentosFallidosSesion(0);
+        }
         return usuariosRepository.saveAll(usuarios);
     }
 
@@ -68,18 +88,17 @@ public class UsuariosService {
     @AuditableAction(actionName = "Actualización de Usuario", message = "Se intentó actualizar un usuario existente.")
     // Actualizar un usuario existente
     public Optional<Usuarios> update(UUID id, Usuarios usuarioActualizado) {
-        return usuariosRepository.findById(id).map(usuario -> {
-            usuario.setNombres(usuarioActualizado.getNombres());
-            usuario.setApellidos(usuarioActualizado.getApellidos());
-            usuario.setEmail(usuarioActualizado.getEmail());
-            usuario.setEstado(usuarioActualizado.getEstado());
-            usuario.setDosFactorActivo(usuarioActualizado.isDosFactorActivo());
-            usuario.setDosFactorSecretoTotp(usuarioActualizado.getDosFactorSecretoTotp());
-            usuario.setIntentosFallidosSesion(usuarioActualizado.getIntentosFallidosSesion());
-            usuario.setFechaUltimoIntentoFallido(usuarioActualizado.getFechaUltimoIntentoFallido());
-            usuario.setFechaBloqueoSesion(usuarioActualizado.getFechaBloqueoSesion());
-            usuario.setRequiereCambioContrasena(usuarioActualizado.isRequiereCambioContrasena());
-            return usuariosRepository.save(usuario);
+        return usuariosRepository.findById(id).map(usuarioExistente -> {
+            usuarioExistente.setNombres(usuarioActualizado.getNombres());
+            usuarioExistente.setApellidos(usuarioActualizado.getApellidos());
+            usuarioExistente.setEmail(usuarioActualizado.getEmail());
+            usuarioExistente.setEstado(usuarioActualizado.getEstado());
+            usuarioExistente.setDosFactorActivo(usuarioActualizado.isDosFactorActivo());
+            usuarioExistente.setIntentosFallidosSesion(usuarioActualizado.getIntentosFallidosSesion());
+            usuarioExistente.setFechaUltimoIntentoFallido(usuarioActualizado.getFechaUltimoIntentoFallido());
+            usuarioExistente.setFechaBloqueoSesion(usuarioActualizado.getFechaBloqueoSesion());
+            usuarioExistente.setRequiereCambioContrasena(usuarioActualizado.isRequiereCambioContrasena());
+            return usuariosRepository.save(usuarioExistente);
         });
     }
 
