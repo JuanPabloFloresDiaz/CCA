@@ -5,7 +5,6 @@ import {
   createRootRoute,
   createRoute,
   RouterProvider,
-  Outlet,
 } from '@tanstack/react-router'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
@@ -25,43 +24,56 @@ import EnviarCorreos from './pages/EnviarCorreos.jsx'
 import Reportes from './pages/Reportes.jsx'
 import Graficos from './pages/Graficos.jsx'
 
-// CSS global
+// Layout
+import MenuLayout from './layout/MenuLayout.jsx'
+
+// Estilos globales
 import './index.css'
 import './App.css'
 
-// Query client
+// Instancia de React Query
 const queryClient = new QueryClient()
 
-// Root route
-const rootRoute = createRootRoute({
-  component: () => (
-    <>
-      <Outlet />
-    </>
-  ),
+// Root (sin componente)
+const rootRoute = createRootRoute()
+
+// Ruta del login (sin layout)
+const authRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/',
+  component: Login,
 })
 
-// Definimos todas las rutas hijas
+// Ruta que envuelve todas las demás (usa MenuLayout)
+const appRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  id: 'app',
+  component: MenuLayout,
+})
+
+// Rutas protegidas (hijas de appRoute)
 const routeTree = rootRoute.addChildren([
-  createRoute({ getParentRoute: () => rootRoute, path: '/', component: Login }),
-  createRoute({ getParentRoute: () => rootRoute, path: '/cambiar-clave', component: CambiarClave }),
-  createRoute({ getParentRoute: () => rootRoute, path: '/dashboard', component: Dashboard }),
-  createRoute({ getParentRoute: () => rootRoute, path: '/secciones', component: Secciones }),
-  createRoute({ getParentRoute: () => rootRoute, path: '/aplicaciones', component: Aplicaciones }),
-  createRoute({ getParentRoute: () => rootRoute, path: '/acciones', component: Acciones }),
-  createRoute({ getParentRoute: () => rootRoute, path: '/tipos-usuarios', component: TiposUsuarios }),
-  createRoute({ getParentRoute: () => rootRoute, path: '/permisos', component: Permisos }),
-  createRoute({ getParentRoute: () => rootRoute, path: '/usuarios', component: Usuarios }),
-  createRoute({ getParentRoute: () => rootRoute, path: '/sesiones', component: Sesiones }),
-  createRoute({ getParentRoute: () => rootRoute, path: '/auditoria', component: Auditoria }),
-  createRoute({ getParentRoute: () => rootRoute, path: '/enviar-correos', component: EnviarCorreos }),
-  createRoute({ getParentRoute: () => rootRoute, path: '/reportes', component: Reportes }),
-  createRoute({ getParentRoute: () => rootRoute, path: '/graficos', component: Graficos }),
+  authRoute,
+  appRoute.addChildren([
+    createRoute({ path: '/cambiar-clave', component: CambiarClave, getParentRoute: () => appRoute }),
+    createRoute({ path: '/dashboard', component: Dashboard, getParentRoute: () => appRoute }),
+    createRoute({ path: '/secciones', component: Secciones, getParentRoute: () => appRoute }),
+    createRoute({ path: '/aplicaciones', component: Aplicaciones, getParentRoute: () => appRoute }),
+    createRoute({ path: '/acciones', component: Acciones, getParentRoute: () => appRoute }),
+    createRoute({ path: '/tipos-usuarios', component: TiposUsuarios, getParentRoute: () => appRoute }),
+    createRoute({ path: '/permisos', component: Permisos, getParentRoute: () => appRoute }),
+    createRoute({ path: '/usuarios', component: Usuarios, getParentRoute: () => appRoute }),
+    createRoute({ path: '/sesiones', component: Sesiones, getParentRoute: () => appRoute }),
+    createRoute({ path: '/auditoria', component: Auditoria, getParentRoute: () => appRoute }),
+    createRoute({ path: '/enviar-correos', component: EnviarCorreos, getParentRoute: () => appRoute }),
+    createRoute({ path: '/reportes', component: Reportes, getParentRoute: () => appRoute }),
+    createRoute({ path: '/graficos', component: Graficos, getParentRoute: () => appRoute }),
+  ]),
 ])
 
 const router = createRouter({ routeTree })
 
-// Render
+// Renderizado principal
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
