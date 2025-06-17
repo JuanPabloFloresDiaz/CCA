@@ -13,11 +13,10 @@ El **Centro de Control de Accesos (CCA)** es un sistema de Gestión de Identidad
 1. [Características](#-características)
 2. [Arquitectura](#-arquitectura)
 3. [Tecnologías](#%EF%B8%8F-tecnologías)
-4. [Capturas de Pantalla](#-capturas-de-pantalla)
-5. [Instalación](#-instalación)
-6. [Uso](#-uso)
-7. [Despliegue](#-despliegue)
-8. [Contribución](#-contribución)
+4. [Instalación](#-instalación)
+5. [Uso](#-uso)
+6. [Despliegue](#-despliegue)
+7. [Contribución](#-contribución)
 
 ## ✅ Características
 
