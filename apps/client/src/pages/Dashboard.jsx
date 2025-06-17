@@ -3,7 +3,6 @@
 import { useState } from "react"
 import {
   Box,
-  Container,
   Typography,
   Card,
   CardContent,
@@ -79,13 +78,13 @@ const mockApplications = [
 const getRoleIcon = (roleName) => {
   switch (roleName.toLowerCase()) {
     case "administrador":
-      return <AdminPanelSettings sx={{ color: "#00bcd4" }} />
+      return <AdminPanelSettings sx={{ color: "#006064" }} />
     case "supervisor":
-      return <SupervisorAccount sx={{ color: "#00acc1" }} />
+      return <SupervisorAccount sx={{ color: "#00695c" }} />
     case "analista":
-      return <TrendingUp sx={{ color: "#00838f" }} />
+      return <TrendingUp sx={{ color: "#004d50" }} />
     default:
-      return <Person sx={{ color: "#00bcd4" }} />
+      return <Person sx={{ color: "#006064" }} />
   }
 }
 
@@ -97,30 +96,28 @@ const Dashboard = () => {
   }
 
   return (
-    <Container maxWidth="xl" sx={{ py: 4 }}>
+    <Box sx={{ p: 0 }}>
       {/* Header */}
-      <Box sx={{ mb: 4 }}>
+      <Box sx={{ mb: 3 }}>
         <Typography
-          variant="h3"
+          variant="h4"
           component="h1"
           sx={{
             fontWeight: 700,
-            color: "#00acc1",
+            color: "#006064", // Teal más oscuro para consistencia
             mb: 1,
             display: "flex",
             alignItems: "center",
             gap: 2,
           }}
         >
-          <DashboardIcon sx={{ fontSize: 40 }} />
+          <DashboardIcon sx={{ fontSize: 32 }} />
           Dashboard
         </Typography>
-        <Typography variant="h6" color="text.secondary">
-          Bienvenido a tu panel de control de accesos
-        </Typography>
+
       </Box>
 
-      <Grid container spacing={4}>
+      <Grid container spacing={3}>
         {/* Sección de aplicaciones */}
         <Grid item xs={12} lg={8}>
           <Paper
@@ -129,13 +126,14 @@ const Dashboard = () => {
               p: 3,
               borderRadius: 3,
               background: "linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%)",
+              boxShadow: "0 4px 20px rgba(0, 96, 100, 0.1)",
             }}
           >
             <Typography
               variant="h5"
               sx={{
                 fontWeight: 600,
-                color: "#00acc1",
+                color: "#006064", // Teal oscuro
                 mb: 3,
                 display: "flex",
                 alignItems: "center",
@@ -267,7 +265,7 @@ const Dashboard = () => {
           </Paper>
         </Grid>
       </Grid>
-    </Container>
+    </Box>
   )
 }
 
