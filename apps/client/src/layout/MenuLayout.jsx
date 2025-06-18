@@ -1,6 +1,6 @@
 "use client"
 
-import { Outlet, Link, useRouter } from "@tanstack/react-router"
+import { Outlet, Link, useRouter, useMatchRoute } from "@tanstack/react-router"
 import {
   Box,
   CssBaseline,
@@ -68,7 +68,7 @@ export default function MenuLayout() {
         sx={{
           width: `calc(100% - ${drawerWidth}px)`,
           ml: `${drawerWidth}px`,
-          bgcolor: "#006064", 
+          bgcolor: "#006064",
           boxShadow: "0 2px 10px rgba(0, 96, 100, 0.2)",
         }}
       >
@@ -151,80 +151,85 @@ export default function MenuLayout() {
         {/* Lista de Menú */}
         <Box sx={{ overflow: "auto", flex: 1, py: 1 }}>
           <List sx={{ px: 1 }}>
-            {menuItems.map(({ label, to, icon: Icon }) => (
-              <ListItem key={to} disablePadding sx={{ mb: 0.5 }}>
-                <ListItemButton
-                  component={Link}
-                  to={to}
-                  selected={pathname === to}
-                  sx={{
-                    borderRadius: 2,
-                    mx: 1,
-                    transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-                    color: "white",
-                    "&:hover": {
-                      bgcolor: "rgba(255, 255, 255, 0.1)",
-                      transform: "translateX(8px)",
-                      boxShadow: "0 4px 12px rgba(0, 0, 0, 0.2)",
-                    },
-                    "&.Mui-selected": {
-                      bgcolor: "rgba(255, 255, 255, 0.15)",
-                      transform: "translateX(8px)",
-                      boxShadow: "0 4px 12px rgba(0, 0, 0, 0.3)",
+            {menuItems.map(({ label, to, icon: Icon }) => {
+              const match = useMatchRoute()
+              const isActive = !!match({ to, fuzzy: false })
+
+              return (
+                <ListItem key={to} disablePadding sx={{ mb: 0.5 }}>
+                  <ListItemButton
+                    component={Link}
+                    to={to}
+                    selected={isActive}
+                    sx={{
+                      borderRadius: 2,
+                      mx: 1,
+                      transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+                      color: "white",
                       "&:hover": {
-                        bgcolor: "rgba(255, 255, 255, 0.2)",
+                        bgcolor: "rgba(255, 255, 255, 0.1)",
+                        transform: "translateX(8px)",
+                        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.2)",
                       },
-                      "&::before": {
+                      "&.Mui-selected": {
+                        bgcolor: "rgba(255, 255, 255, 0.15)",
+                        transform: "translateX(8px)",
+                        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.3)",
+                        "&:hover": {
+                          bgcolor: "rgba(255, 255, 255, 0.2)",
+                        },
+                        "&::before": {
+                          content: '""',
+                          position: "absolute",
+                          left: 0,
+                          top: "50%",
+                          transform: "translateY(-50%)",
+                          width: 4,
+                          height: "60%",
+                          bgcolor: "#00e5ff",
+                          borderRadius: "0 2px 2px 0",
+                        },
+                      },
+                      position: "relative",
+                      overflow: "hidden",
+                      "&::after": {
                         content: '""',
                         position: "absolute",
-                        left: 0,
-                        top: "50%",
-                        transform: "translateY(-50%)",
-                        width: 4,
-                        height: "60%",
-                        bgcolor: "#00e5ff", 
-                        borderRadius: "0 2px 2px 0",
+                        top: 0,
+                        left: "-100%",
+                        width: "100%",
+                        height: "100%",
+                        background: "linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent)",
+                        transition: "left 0.5s",
                       },
-                    },
-                    position: "relative",
-                    overflow: "hidden",
-                    "&::after": {
-                      content: '""',
-                      position: "absolute",
-                      top: 0,
-                      left: "-100%",
-                      width: "100%",
-                      height: "100%",
-                      background: "linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent)",
-                      transition: "left 0.5s",
-                    },
-                    "&:hover::after": {
-                      left: "100%",
-                    },
-                  }}
-                >
-                  <ListItemIcon
-                    sx={{
-                      color: "inherit",
-                      minWidth: 40,
-                      transition: "transform 0.2s ease-in-out",
-                      ".MuiListItemButton-root:hover &": {
-                        transform: "scale(1.1)",
+                      "&:hover::after": {
+                        left: "100%",
                       },
                     }}
                   >
-                    <Icon />
-                  </ListItemIcon>
-                  <ListItemText
-                    primary={label}
-                    primaryTypographyProps={{
-                      fontWeight: pathname === to ? 600 : 500,
-                      fontSize: "0.95rem",
-                    }}
-                  />
-                </ListItemButton>
-              </ListItem>
-            ))}
+                    <ListItemIcon
+                      sx={{
+                        color: "inherit",
+                        minWidth: 40,
+                        transition: "transform 0.2s ease-in-out",
+                        ".MuiListItemButton-root:hover &": {
+                          transform: "scale(1.1)",
+                        },
+                      }}
+                    >
+                      <Icon />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={label}
+                      primaryTypographyProps={{
+                        fontWeight: isActive ? 600 : 500,
+                        fontSize: "0.95rem",
+                      }}
+                    />
+                  </ListItemButton>
+                </ListItem>
+              )
+            })}
           </List>
         </Box>
 
