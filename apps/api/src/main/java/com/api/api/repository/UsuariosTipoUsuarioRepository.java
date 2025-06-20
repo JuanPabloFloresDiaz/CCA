@@ -28,4 +28,8 @@ public interface UsuariosTipoUsuarioRepository extends JpaRepository<UsuariosTip
 
     @Query("SELECT u FROM UsuariosTipoUsuario u WHERE u.usuario.id = :usuarioId")
     List<UsuariosTipoUsuario> findAllByUsuarioId(@Param("usuarioId") UUID usuarioId);
+
+    // Método para buscar usuarios tipo usuario por ID de tipo de usuario y ID de usuario
+    @Query("SELECT u FROM UsuariosTipoUsuario u WHERE u.tipoUsuario.id = :tipoUsuarioId AND u.usuario.id = :usuarioId")
+    List<UsuariosTipoUsuario> findByTipoUsuarioIdAndUsuarioId(@Param("tipoUsuarioId") UUID tipoUsuarioId, @Param("usuarioId") UUID usuarioId);
 }

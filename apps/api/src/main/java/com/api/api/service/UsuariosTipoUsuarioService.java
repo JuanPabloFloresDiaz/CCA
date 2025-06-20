@@ -175,4 +175,9 @@ public class UsuariosTipoUsuarioService {
                 .sorted((s1, s2) -> s1.getNombreSeccion().compareTo(s2.getNombreSeccion()))
                 .collect(Collectors.toList());
     }
+
+    // Método para buscar usuarios tipo usuario por ID de tipo de usuario y ID de usuario
+    public List<UsuariosTipoUsuario> findByTipoUsuarioIdAndUsuarioId(UUID tipoUsuarioId, UUID usuarioId) {
+        return usuariosTipoUsuarioRepository.findByTipoUsuarioIdAndUsuarioId(tipoUsuarioId, usuarioId);
+    }
 }
