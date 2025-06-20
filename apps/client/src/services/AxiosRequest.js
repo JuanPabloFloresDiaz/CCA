@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const SERVER_URL = "http://localhost:3000/api/";
+const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
 async function AxiosRequest(endpoint, method, form = {}, params) {
   // Verificar si alguno de los valores en `form` es un archivo (instancia de File)
