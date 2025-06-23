@@ -13,6 +13,7 @@ import com.api.api.dto.ResponseDTO.LoginResponseDTO;
 import com.api.api.dto.RequestDTO.PasswordChangeRequestDTO;
 import com.api.api.exception.BadRequestException;
 import com.api.api.exception.ResourceNotFoundException;
+import com.api.api.audit.AuditActions;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -78,20 +79,20 @@ public class AuthService {
                                 + "' no encontrada. Asegúrate de que exista y esté configurada en la base de datos."));
 
         this.loginExitosoAction = accionesService
-                .findByNombreAndAplicacionId("Login Exitoso", currentApplication.getId())
+                .findByNombreAndAplicacionId(AuditActions.INICIO_SESION_EXITOSO, currentApplication.getId())
                 .orElseThrow(() -> new IllegalStateException(
                         "Acción 'Login Exitoso' no encontrada para la aplicación '" + applicationIdentifier + "'."));
         this.loginFallidoAction = accionesService
-                .findByNombreAndAplicacionId("Login Fallido", currentApplication.getId())
+                .findByNombreAndAplicacionId(AuditActions.INICIO_SESION_FALLIDO, currentApplication.getId())
                 .orElseThrow(() -> new IllegalStateException(
                         "Acción 'Login Fallido' no encontrada para la aplicación '" + applicationIdentifier + "'."));
         this.cambioContrasenaAction = accionesService
-                .findByNombreAndAplicacionId("Cambio de Contraseña", currentApplication.getId())
+                .findByNombreAndAplicacionId(AuditActions.CAMBIO_CONTRASENA_USUARIO, currentApplication.getId())
                 .orElseThrow(() -> new IllegalStateException(
                         "Acción 'Cambio de Contraseña' no encontrada para la aplicación '" + applicationIdentifier
                                 + "'."));
         this.cierreSesionAction = accionesService
-                .findByNombreAndAplicacionId("Cierre de Sesión", currentApplication.getId())
+                .findByNombreAndAplicacionId(AuditActions.CIERRE_SESION, currentApplication.getId())
                 .orElseThrow(() -> new IllegalStateException(
                         "Acción 'Cierre de Sesión' no encontrada para la aplicación '" + applicationIdentifier + "'."));
     }
