@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.api.api.audit.AuditableAction;
 import com.api.api.audit.AuditableAction.AuditResultType;
+import com.api.api.audit.AuditActions;
 import java.util.Optional;
 import java.util.UUID;
 import java.time.OffsetDateTime;
@@ -24,7 +25,7 @@ public class SesionesService {
     }
 
     // Auditar la acción de búsqueda de todas las sesiones
-    @AuditableAction(actionName = "Búsqueda de Sesiones", message = "Se intentó buscar todas las sesiones.", auditResult = AuditResultType.BOTH)
+    @AuditableAction(actionName = AuditActions.BUSQUEDA_SESIONES, message = "Se intentó buscar todas las sesiones.", auditResult = AuditResultType.BOTH)
     // Buscar todas las sesiones con paginación y búsqueda opcional
     public Page<Sesiones> findAll(int page, int limit, String searchTerm) {
         Pageable pageable = PageRequest.of(page - 1, limit);
@@ -35,7 +36,7 @@ public class SesionesService {
     }
 
     // Auditar la acción de búsqueda de una sesión por su ID
-    @AuditableAction(actionName = "Búsqueda de Sesión por ID", message = "Se intentó buscar una sesión por su ID.", auditResult = AuditResultType.BOTH)
+    @AuditableAction(actionName = AuditActions.BUSQUEDA_SESION_POR_ID, message = "Se intentó buscar una sesión por su ID.", auditResult = AuditResultType.BOTH)
     // Buscar una sesión por su ID
     public Optional<Sesiones> findById(UUID id) {
         return sesionesRepository.findById(id);
@@ -52,7 +53,7 @@ public class SesionesService {
     }
 
     // Auditar la acción de actualización de una sesión
-    @AuditableAction(actionName = "Actualización de Sesión", message = "Se intentó actualizar una sesión existente.", auditResult = AuditResultType.BOTH)
+    @AuditableAction(actionName = AuditActions.ACTUALIZACION_SESION, message = "Se intentó actualizar una sesión existente.", auditResult = AuditResultType.BOTH)
     // Actualizar una sesión existente
     public Optional<Sesiones> update(UUID id, Sesiones sesionActualizada) {
         return sesionesRepository.findById(id).map(sesion -> {
@@ -70,7 +71,7 @@ public class SesionesService {
     }
 
     // Auditar la acción de actualización del estado de una sesión
-    @AuditableAction(actionName = "Actualización de Estado de Sesión", message = "Se intentó actualizar el estado de una sesión.", auditResult = AuditResultType.BOTH)
+    @AuditableAction(actionName = AuditActions.ACTUALIZACION_ESTADO_SESION, message = "Se intentó actualizar el estado de una sesión.", auditResult = AuditResultType.BOTH)
     // Actualizar el estado de una sesión por su ID
     public Optional<Sesiones> updateStatus(UUID id, String newStatus, OffsetDateTime endDate) {
         return sesionesRepository.findById(id).map(sesion -> {
@@ -81,14 +82,14 @@ public class SesionesService {
     }
 
     // Auditar la acción de eliminación de una sesión por su ID
-    @AuditableAction(actionName = "Eliminación de Sesión por ID", message = "Se intentó eliminar una sesión por su ID.", auditResult = AuditResultType.BOTH)
+    @AuditableAction(actionName = AuditActions.ELIMINACION_DEFINITIVA_SESION, message = "Se intentó eliminar una sesión por su ID.", auditResult = AuditResultType.BOTH)
     // Eliminar definitivamente una sesión por su ID
     public void deleteById(UUID id) {
         sesionesRepository.deleteById(id);
     }
 
     // Auditar la acción de eliminación lógica de una sesión por su ID
-    @AuditableAction(actionName = "Eliminación Lógica de Sesión por ID", message = "Se intentó eliminar lógicamente una sesión por su ID.", auditResult = AuditResultType.BOTH)
+    @AuditableAction(actionName = AuditActions.ELIMINACION_LOGICA_SESION, message = "Se intentó eliminar lógicamente una sesión por su ID.", auditResult = AuditResultType.BOTH)
     // Eliminar lógicamente una sesión por su ID
     public Optional<Sesiones> softDelete(UUID id) {
         return sesionesRepository.findById(id).map(sesion -> {
@@ -98,7 +99,7 @@ public class SesionesService {
     }
 
     // Auditar la acción de búsqueda de sesiones por estado con paginación
-    @AuditableAction(actionName = "Búsqueda de Sesiones por Estado", message = "Se intentó buscar sesiones por estado con paginación.", auditResult = AuditResultType.BOTH)
+    @AuditableAction(actionName = AuditActions.FILTRADO_SESIONES_POR_ESTADO, message = "Se intentó buscar sesiones por estado con paginación.", auditResult = AuditResultType.BOTH)
     // Filtrar sesiones por estado con paginación
     public Page<Sesiones> findByEstado(String estado, int page, int limit) {
         Pageable pageable = PageRequest.of(page - 1, limit);
