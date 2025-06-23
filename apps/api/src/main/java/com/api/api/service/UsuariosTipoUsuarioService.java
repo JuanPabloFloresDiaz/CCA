@@ -16,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import com.api.api.audit.AuditableAction;
 import com.api.api.audit.AuditableAction.AuditResultType;
+import com.api.api.audit.AuditActions;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -41,7 +42,7 @@ public class UsuariosTipoUsuarioService {
     }
 
     // Auditar la acción de búsqueda de todos los usuarios tipo usuario
-    @AuditableAction(actionName = "Búsqueda de Usuarios Tipo Usuario", message = "Se intentó buscar todos los usuarios tipo usuario.", auditResult = AuditResultType.BOTH)
+    @AuditableAction(actionName = AuditActions.BUSQUEDA_TIPOS_USUARIOS, message = "Se intentó buscar todos los usuarios tipo usuario.", auditResult = AuditResultType.BOTH)
     // Buscar todos con paginación y búsqueda opcional
     public Page<UsuariosTipoUsuario> findAll(int page, int limit, String searchTerm) {
         Pageable pageable = PageRequest.of(page - 1, limit);
@@ -52,28 +53,28 @@ public class UsuariosTipoUsuarioService {
     }
 
     // Auditar la acción de búsqueda de un usuario tipo usuario por ID
-    @AuditableAction(actionName = "Búsqueda de Usuario Tipo Usuario por ID", message = "Se intentó buscar un usuario tipo usuario por su ID.", auditResult = AuditResultType.BOTH)
+    @AuditableAction(actionName = AuditActions.BUSQUEDA_TIPOS_USUARIOS, message = "Se intentó buscar un usuario tipo usuario por su ID.", auditResult = AuditResultType.BOTH)
     // Buscar por ID
     public Optional<UsuariosTipoUsuario> findById(UUID id) {
         return usuariosTipoUsuarioRepository.findById(id);
     }
 
     // Auditar la acción de creación de un usuario tipo usuario
-    @AuditableAction(actionName = "Creación de Usuario Tipo Usuario", message = "Se intentó crear un nuevo usuario tipo usuario.")
+    @AuditableAction(actionName = AuditActions.CREACION_TIPO_USUARIO, message = "Se intentó crear un nuevo usuario tipo usuario.")
     // Crear uno nuevo
     public UsuariosTipoUsuario create(UsuariosTipoUsuario usuarioTipoUsuario) {
         return usuariosTipoUsuarioRepository.save(usuarioTipoUsuario);
     }
 
     // Auditar la acción de creación de múltiples usuarios tipo usuario
-    @AuditableAction(actionName = "Creación de Múltiples Usuarios Tipo Usuario", message = "Se intentó crear múltiples usuarios tipo usuario.")
+    @AuditableAction(actionName = AuditActions.CREACION_TIPO_USUARIO, message = "Se intentó crear múltiples usuarios tipo usuario.")
     // Crear múltiples
     public List<UsuariosTipoUsuario> createAll(List<UsuariosTipoUsuario> lista) {
         return usuariosTipoUsuarioRepository.saveAll(lista);
     }
 
     // Auditar la acción de actualización de un usuario tipo usuario
-    @AuditableAction(actionName = "Actualización de Usuario Tipo Usuario", message = "Se intentó actualizar un usuario tipo usuario existente.")
+    @AuditableAction(actionName = AuditActions.ACTUALIZACION_TIPO_USUARIO, message = "Se intentó actualizar un usuario tipo usuario existente.")
     // Actualizar existente
     public Optional<UsuariosTipoUsuario> update(UUID id, UsuariosTipoUsuario actualizado) {
         return usuariosTipoUsuarioRepository.findById(id).map(usuTipoUsu -> {
@@ -84,14 +85,14 @@ public class UsuariosTipoUsuarioService {
     }
 
     // Auditar la acción de eliminación de un usuario tipo usuario por ID
-    @AuditableAction(actionName = "Eliminación de Usuario Tipo Usuario por ID", message = "Se intentó eliminar un usuario tipo usuario por su ID.")
+    @AuditableAction(actionName = AuditActions.ELIMINACION_DEFINITIVA_TIPO_USUARIO, message = "Se intentó eliminar un usuario tipo usuario por su ID.")
     // Eliminar definitivamente por ID
     public void deleteById(UUID id) {
         usuariosTipoUsuarioRepository.deleteById(id);
     }
 
     // Auditar la acción de eliminación lógica de un usuario tipo usuario por ID
-    @AuditableAction(actionName = "Eliminación Lógica de Usuario Tipo Usuario por ID", message = "Se intentó eliminar lógicamente un usuario tipo usuario por su ID.")
+    @AuditableAction(actionName = AuditActions.ELIMINACION_LOGICA_TIPO_USUARIO, message = "Se intentó eliminar lógicamente un usuario tipo usuario por su ID.")
     // Eliminar lógicamente por ID
     public Optional<UsuariosTipoUsuario> softDelete(UUID id) {
         return usuariosTipoUsuarioRepository.findById(id).map(usuTipoUsu -> {
@@ -101,7 +102,7 @@ public class UsuariosTipoUsuarioService {
     }
 
     // Auditar la acción de busqueda de usuarios tipo usuario por usuario ID
-    @AuditableAction(actionName = "Búsqueda de Usuarios Tipo Usuario por Usuario ID", message = "Se intentó buscar usuarios tipo usuario por usuario ID.", auditResult = AuditResultType.BOTH)
+    @AuditableAction(actionName = AuditActions.BUSQUEDA_TIPOS_USUARIOS, message = "Se intentó buscar usuarios tipo usuario por usuario ID.", auditResult = AuditResultType.BOTH)
     // Filtrar por usuario
     public Page<UsuariosTipoUsuario> findByUsuarioId(UUID usuarioId, int page, int limit) {
         Pageable pageable = PageRequest.of(page - 1, limit);
@@ -109,7 +110,7 @@ public class UsuariosTipoUsuarioService {
     }
 
     // Auditar la acción de busqueda de usuarios tipo usuario por tipo de usuario IDq
-    @AuditableAction(actionName = "Búsqueda de Usuarios Tipo Usuario por Tipo de Usuario ID", message = "Se intentó buscar usuarios tipo usuario por tipo de usuario ID.", auditResult = AuditResultType.BOTH)
+    @AuditableAction(actionName = AuditActions.BUSQUEDA_TIPOS_USUARIOS, message = "Se intentó buscar usuarios tipo usuario por tipo de usuario ID.", auditResult = AuditResultType.BOTH)
     // Filtrar por tipo de usuario
     public Page<UsuariosTipoUsuario> findByTipoUsuarioId(UUID tipoUsuarioId, int page, int limit) {
         Pageable pageable = PageRequest.of(page - 1, limit);
@@ -117,7 +118,7 @@ public class UsuariosTipoUsuarioService {
     }
 
     // Auditar la acción de obtener permisos agrupados por sección para un usuario en una aplicación específica
-    @AuditableAction(actionName = "Obtener Permisos Agrupados por Sección", message = "Se intentó obtener permisos agrupados por sección para un usuario en una aplicación específica.", auditResult = AuditResultType.BOTH)
+    @AuditableAction(actionName = AuditActions.CONSULTA_PERMISOS_USUARIO_APLICACION_SECCION, message = "Se intentó obtener permisos agrupados por sección para un usuario en una aplicación específica.", auditResult = AuditResultType.BOTH)
     /**
      * Obtiene una lista de SeccionPermisosDTO, donde cada SeccionPermisosDTO
      * contiene el nombre de la sección y las acciones a las que el usuario tiene
