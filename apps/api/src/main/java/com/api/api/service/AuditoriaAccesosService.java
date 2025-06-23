@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import com.api.api.audit.AuditableAction;
 import com.api.api.audit.AuditableAction.AuditResultType;
+import com.api.api.audit.AuditActions;
 
 import java.time.OffsetDateTime;
 import java.util.Optional;
@@ -26,7 +27,7 @@ public class AuditoriaAccesosService {
 
     // Buscar todas las auditorías con paginación y búsqueda opcional
     // Auditar la búsqueda de todas las auditorías (lectura de logs)
-    @AuditableAction(actionName = "Consulta de Auditorías (Todas)", message = "Se consultaron todos los registros de auditoría.", auditResult = AuditResultType.SUCCESS)
+    @AuditableAction(actionName = AuditActions.CONSULTA_AUDITORIAS_TODAS, message = "Se consultaron todos los registros de auditoría.", auditResult = AuditResultType.SUCCESS)
     public Page<AuditoriaAccesos> findAll(int page, int limit, String searchTerm) {
         Pageable pageable = PageRequest.of(page - 1, limit);
         if (searchTerm != null && !searchTerm.isEmpty()) {
@@ -37,7 +38,7 @@ public class AuditoriaAccesosService {
 
     // Buscar una auditoría por su ID compuesto (UUID y Fecha)
     // Auditar la búsqueda de una auditoría específica por su ID compuesto
-    @AuditableAction(actionName = "Consulta de Auditoría por ID", message = "Se consultó un registro de auditoría específico.", auditResult = AuditResultType.SUCCESS)
+    @AuditableAction(actionName = AuditActions.CONSULTA_AUDITORIA_POR_ID_FECHA, message = "Se consultó un registro de auditoría específico.", auditResult = AuditResultType.SUCCESS)
     public Optional<AuditoriaAccesos> findById(UUID id, OffsetDateTime fecha) {
         AuditoriaAccesosId compositeId = new AuditoriaAccesosId(id, fecha);
         return auditoriaAccesosRepository.findById(compositeId);
@@ -106,7 +107,7 @@ public class AuditoriaAccesosService {
     }
 
     // Auditar el filtrado de auditorías por aplicación
-    @AuditableAction(actionName = "Filtrado de Auditorías por Aplicación", message = "Se filtraron registros de auditoría por aplicación.", auditResult = AuditResultType.SUCCESS)
+    @AuditableAction(actionName = AuditActions.FILTRADO_AUDITORIAS_POR_APLICACION, message = "Se filtraron registros de auditoría por aplicación.", auditResult = AuditResultType.SUCCESS)
     // Filtrar auditorías por aplicación con paginación
     public Page<AuditoriaAccesos> findByAplicacionId(UUID aplicacionId, int page, int limit) {
         Pageable pageable = PageRequest.of(page - 1, limit);
@@ -114,7 +115,7 @@ public class AuditoriaAccesosService {
     }
 
     // Auditar el filtrado de auditorías por acción
-    @AuditableAction(actionName = "Filtrado de Auditorías por Acción", message = "Se filtraron registros de auditoría por acción.", auditResult = AuditResultType.SUCCESS)
+    @AuditableAction(actionName = AuditActions.FILTRADO_AUDITORIAS_POR_ACCION, message = "Se filtraron registros de auditoría por acción.", auditResult = AuditResultType.SUCCESS)
     // Filtrar auditorías por acción con paginación
     public Page<AuditoriaAccesos> findByAccionId(UUID accionId, int page, int limit) {
         Pageable pageable = PageRequest.of(page - 1, limit);
