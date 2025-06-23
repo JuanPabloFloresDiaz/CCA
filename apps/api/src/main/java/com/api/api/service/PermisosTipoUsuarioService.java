@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import com.api.api.audit.AuditableAction;
 import com.api.api.audit.AuditableAction.AuditResultType;
+import com.api.api.audit.AuditActions;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -24,7 +25,7 @@ public class PermisosTipoUsuarioService {
     }
 
     // Auditar la acción de búsqueda de todos los permisos
-    @AuditableAction(actionName = "Búsqueda de Permisos", message = "Se intentó buscar todos los permisos.", auditResult = AuditResultType.BOTH)
+    @AuditableAction(actionName = AuditActions.BUSQUEDA_PERMISOS, message = "Se intentó buscar todos los permisos.", auditResult = AuditResultType.BOTH)
     // Buscar todos los permisos con paginación y búsqueda opcional
     public Page<PermisosTipoUsuario> findAll(int page, int limit, String searchTerm) {
         Pageable pageable = PageRequest.of(page - 1, limit);
@@ -42,21 +43,21 @@ public class PermisosTipoUsuarioService {
     }
 
     // Auditar la acción de creación de un permiso
-    @AuditableAction(actionName = "Creación de Permiso", message = "Se intentó crear un nuevo permiso.")
+    @AuditableAction(actionName = AuditActions.CREACION_PERMISO, message = "Se intentó crear un nuevo permiso.")
     // Crear un nuevo permiso
     public PermisosTipoUsuario create(PermisosTipoUsuario permiso) {
         return permisosTipoUsuarioRepository.save(permiso);
     }
 
     // Auditar la acción de creación de múltiples permisos
-    @AuditableAction(actionName = "Creación de Múltiples Permisos", message = "Se intentó crear múltiples permisos.")
+    @AuditableAction(actionName = AuditActions.CREACION_PERMISO, message = "Se intentó crear múltiples permisos.")
     // Crear múltiples permisos
     public List<PermisosTipoUsuario> createAll(List<PermisosTipoUsuario> permisos) {
         return permisosTipoUsuarioRepository.saveAll(permisos);
     }
 
     // Auditar la acción de actualización de un permiso
-    @AuditableAction(actionName = "Actualización de Permiso", message = "Se intentó actualizar un permiso existente.")
+    @AuditableAction(actionName = AuditActions.ACTUALIZACION_PERMISO, message = "Se intentó actualizar un permiso existente.")
     // Actualizar un permiso existente
     public Optional<PermisosTipoUsuario> update(UUID id, PermisosTipoUsuario permisoActualizado) {
         return permisosTipoUsuarioRepository.findById(id).map(permiso -> {
@@ -67,7 +68,7 @@ public class PermisosTipoUsuarioService {
     }
 
     // Auditar la acción de eliminación de un permiso por su ID
-    @AuditableAction(actionName = "Eliminación de Permiso", message = "Se intentó eliminar un permiso por su ID.")
+    @AuditableAction(actionName = AuditActions.ELIMINACION_DEFINITIVA_PERMISO, message = "Se intentó eliminar un permiso por su ID.")
     // Eliminar definitivamente un permiso por su ID
     public void deleteById(UUID id) {
         permisosTipoUsuarioRepository.deleteById(id);
@@ -75,7 +76,7 @@ public class PermisosTipoUsuarioService {
 
     // Auditar la acción de eliminación lógica de un permiso por su ID
 
-    @AuditableAction(actionName = "Eliminación Lógica de Permiso", message = "Se intentó eliminar lógicamente un permiso por su ID.")
+    @AuditableAction(actionName = AuditActions.ELIMINACION_LOGICA_PERMISO, message = "Se intentó eliminar lógicamente un permiso por su ID.")
     // Eliminar lógicamente un permiso por su ID
     public Optional<PermisosTipoUsuario> softDelete(UUID id) {
         return permisosTipoUsuarioRepository.findById(id).map(permiso -> {
@@ -85,7 +86,7 @@ public class PermisosTipoUsuarioService {
     }
 
     // Auditar la acción de búsqueda de permisos por tipo de usuario
-    @AuditableAction(actionName = "Búsqueda de Permisos por Tipo de Usuario", message = "Se intentó buscar permisos por tipo de usuario con paginación.", auditResult = AuditResultType.BOTH)
+    @AuditableAction(actionName = AuditActions.FILTRADO_PERMISOS_POR_TIPO_USUARIO, message = "Se intentó buscar permisos por tipo de usuario con paginación.", auditResult = AuditResultType.BOTH)
     // Filtrar permisos por tipo de usuario con paginación
     public Page<PermisosTipoUsuario> findByTipoUsuarioId(UUID tipoUsuarioId, int page, int limit) {
         Pageable pageable = PageRequest.of(page - 1, limit);
@@ -93,7 +94,7 @@ public class PermisosTipoUsuarioService {
     }
 
     // Auditar la acción de búsqueda de permisos por aplicación
-    @AuditableAction(actionName = "Búsqueda de Permisos por Aplicación", message = "Se intentó buscar permisos por aplicación con paginación.", auditResult = AuditResultType.BOTH)
+    @AuditableAction(actionName = AuditActions.FILTRADO_PERMISOS_POR_APLICACION, message = "Se intentó buscar permisos por aplicación con paginación.", auditResult = AuditResultType.BOTH)
     // Filtrar permisos por aplicación con paginación
     public Page<PermisosTipoUsuario> findByAplicacionId(UUID aplicacionId, int page, int limit) {
         Pageable pageable = PageRequest.of(page - 1, limit);
@@ -106,6 +107,7 @@ public class PermisosTipoUsuarioService {
      * @param tipoUsuarioIds Colección de UUIDs de tipos de usuario.
      * @return Lista de PermisosTipoUsuario.
      */
+    @AuditableAction(actionName = AuditActions.FILTRADO_PERMISOS_POR_TIPO_USUARIO, message = "Se intentó buscar permisos por tipos de usuarios", auditResult = AuditResultType.BOTH)
     public List<PermisosTipoUsuario> findByTipoUsuarioIdIn(Collection<UUID> tipoUsuarioIds) {
         return permisosTipoUsuarioRepository.findByTipoUsuarioIdIn(tipoUsuarioIds);
     }
